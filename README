@@ -1,0 +1,7 @@
+Encrypt PHP session data using files
+----------------------------------------------
+The encryption is built using mcrypt extension 
+and the randomness is managed by openssl
+  
+Enrico Zimuel (enrico@zimuel.it)
+Copyright GNU General Public License
