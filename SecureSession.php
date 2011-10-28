@@ -5,8 +5,8 @@
  * ------------------------------------------------
  * The encryption is built using mcrypt extension 
  * and the randomness is managed by openssl
- * The default encryption algorithm is Rijndael-256
- * and we use CBC+HMAC (Encrypt-then-mac)
+ * The default encryption algorithm is AES (Rijndael-128)
+ * and we use CBC+HMAC (Encrypt-then-mac) with SHA-256
  * 
  * @author Enrico Zimuel (enrico@zimuel.it)
  * @copyright GNU General Public License
@@ -17,7 +17,7 @@ class SecureSession {
      * 
      * @var string
      */
-    protected $_algo= MCRYPT_RIJNDAEL_256;    
+    protected $_algo= MCRYPT_RIJNDAEL_128;    
     /**
      * Key for encryption/decryption
     * 
@@ -55,10 +55,10 @@ class SecureSession {
      */
     protected $_keyName;
     /**
-     * Generate a random key
-     * fallback to mt_rand if PHP < 5.3 or no openssl available
+     * Generate a random key using openssl
+     * fallback to mcrypt_create_iv using /dev/urandom
      * 
-     * @param integer $length
+     * @param  integer $length
      * @return string
      */
     protected function _randomKey($length=32) {
@@ -68,12 +68,11 @@ class SecureSession {
                 return $rnd;
             }    
         }
-        for ($i=0;$i<$length;$i++) {
-            $sha= sha1(mt_rand());
-            $char= mt_rand(0,30);
-            $rnd.= chr(hexdec($sha[$char] . $sha[$char+1]));
+        if (defined(MCRYPT_DEV_URANDOM)) {
+            return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+        } else {
+            throw new Exception("I cannot generate a secure pseudo-random key. Please use PHP >= 5.3 or Mcrypt extension");
         }	
-        return $rnd;
     }
     /**
      * Constructor
@@ -172,7 +171,7 @@ class SecureSession {
     public function write($id, $data) 
     {
         $sess_file = $this->_path . $this->_name . "_$id";
-	$iv = mcrypt_create_iv($this->_ivSize, MCRYPT_RAND);
+	$iv = mcrypt_create_iv($this->_ivSize, MCRYPT_DEV_URANDOM);
         $encrypted = mcrypt_encrypt(
             $this->_algo,
             $this->_key,
