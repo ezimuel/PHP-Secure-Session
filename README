@@ -5,8 +5,20 @@ and the randomness is managed by openssl
 The default encryption algorithm is Rijndael-256
 and we use CBC+HMAC (Encrypt-then-mac)
 
-Release Note:
+How to use it
+-------------
+Include the SecureSession.php in your project and use
+the PHP session as usual.
 
+Demo
+----
+In the demo folder you can see a simple PHP script (demo.php)
+that stores some data in $_SESSION and display the encrypted
+data of the session file (stored in /tmp).
+
+Release Note:
+-------------
+06 June    2012 - Added the demo script
 16 October 2011 - Added the CBC+HMAC authentication
 
   

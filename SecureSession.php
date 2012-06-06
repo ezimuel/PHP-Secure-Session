@@ -8,7 +8,7 @@
  * The default encryption algorithm is AES (Rijndael-128)
  * and we use CBC+HMAC (Encrypt-then-mac) with SHA-256
  * 
- * @author Enrico Zimuel (enrico@zimuel.it)
+ * @author    Enrico Zimuel (enrico@zimuel.it)
  * @copyright GNU General Public License
  */
 class SecureSession {
@@ -56,7 +56,7 @@ class SecureSession {
     protected $_keyName;
     /**
      * Generate a random key using openssl
-     * fallback to mcrypt_create_iv using /dev/urandom
+     * fallback to mcrypt_create_iv
      * 
      * @param  integer $length
      * @return string
@@ -64,14 +64,14 @@ class SecureSession {
     protected function _randomKey($length=32) {
         if(function_exists('openssl_random_pseudo_bytes')) {
             $rnd = openssl_random_pseudo_bytes($length, $strong);
-            if ($strong === TRUE) { 
+            if ($strong === true) { 
                 return $rnd;
             }    
         }
         if (defined(MCRYPT_DEV_URANDOM)) {
             return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
         } else {
-            throw new Exception("I cannot generate a secure pseudo-random key. Please use PHP >= 5.3 or Mcrypt extension");
+            throw new Exception("I cannot generate a secure pseudo-random key. Please install OpenSSL or Mcrypt extension");
         }	
     }
     /**
@@ -91,21 +91,21 @@ class SecureSession {
     /**
      * Open the session
      * 
-     * @param string $save_path
-     * @param string $session_name
+     * @param  string $save_path
+     * @param  string $session_name
      * @return bool
      */
     public function open($save_path, $session_name) 
     {
-        $this->_path = $save_path.'/';	
-	$this->_name = $session_name;
+        $this->_path    = $save_path.'/';	
+	$this->_name    = $session_name;
 	$this->_keyName = "KEY_$session_name";
-	$this->_ivSize = mcrypt_get_iv_size($this->_algo, MCRYPT_MODE_CBC);
+	$this->_ivSize  = mcrypt_get_iv_size($this->_algo, MCRYPT_MODE_CBC);
 		
-	if (empty($_COOKIE[$this->_keyName])) {
-            $keyLength = mcrypt_get_key_size($this->_algo, MCRYPT_MODE_CBC);
-            $this->_key = self::_randomKey($keyLength);
-            $this->_auth = self::_randomKey(32);
+	if (empty($_COOKIE[$this->_keyName]) || strpos($_COOKIE[$this->_keyName])===false) {
+            $keyLength    = mcrypt_get_key_size($this->_algo, MCRYPT_MODE_CBC);
+            $this->_key   = self::_randomKey($keyLength);
+            $this->_auth  = self::_randomKey(32);
             $cookie_param = session_get_cookie_params();
             setcookie(
                 $this->_keyName,
@@ -118,7 +118,7 @@ class SecureSession {
             );
 	} else {
             list ($this->_key, $this->_auth) = explode (':',$_COOKIE[$this->_keyName]);
-            $this->_key = base64_decode($this->_key);
+            $this->_key  = base64_decode($this->_key);
             $this->_auth = base64_decode($this->_auth);
 	} 
 	return true;
@@ -135,7 +135,7 @@ class SecureSession {
     /**
      * Read and decrypt the session
      * 
-     * @param integer $id
+     * @param  integer $id
      * @return string 
      */
     public function read($id) 
@@ -144,12 +144,12 @@ class SecureSession {
         if (!file_exists($sess_file)) {
             return false;
         }    
-  	$data = file_get_contents($sess_file);
+  	$data      = file_get_contents($sess_file);
         list($hmac, $iv, $encrypted)= explode(':',$data);
-        $iv = base64_decode($iv);
+        $iv        = base64_decode($iv);
         $encrypted = base64_decode($encrypted);
-        $newHmac= hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
-        if ($hmac!==$newHmac) {
+        $newHmac   = hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
+        if ($hmac !== $newHmac) {
             return false;
         }
   	$decrypt = mcrypt_decrypt(
@@ -171,7 +171,7 @@ class SecureSession {
     public function write($id, $data) 
     {
         $sess_file = $this->_path . $this->_name . "_$id";
-	$iv = mcrypt_create_iv($this->_ivSize, MCRYPT_DEV_URANDOM);
+	$iv        = mcrypt_create_iv($this->_ivSize, MCRYPT_DEV_URANDOM);
         $encrypted = mcrypt_encrypt(
             $this->_algo,
             $this->_key,
@@ -179,9 +179,9 @@ class SecureSession {
             MCRYPT_MODE_CBC,
             $iv
         );
-        $hmac= hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
-        $bytes= file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
-        return ($bytes!==false);  
+        $hmac  = hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
+        $bytes = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
+        return ($bytes !== false);  
     }
     /**
      * Destoroy the session
