@@ -16,7 +16,7 @@ if (empty($_SESSION['time'])) {
     $_SESSION['time'] = time();
 }    
 
-$filename = $sessionPath . session_name() . '_' . session_id();
+$filename = $sessionPath . '/' . session_name() . '_' . session_id();
 
 echo "<h1>SecureSession Demo</h1>";
 echo "<br>Session created at <strong>" . date("G:i:s ", $_SESSION['time']) . "</strong>";
