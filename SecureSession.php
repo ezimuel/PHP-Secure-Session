@@ -102,7 +102,7 @@ class SecureSession {
 	$this->_keyName = "KEY_$session_name";
 	$this->_ivSize  = mcrypt_get_iv_size($this->_algo, MCRYPT_MODE_CBC);
 		
-	if (empty($_COOKIE[$this->_keyName]) || strpos($_COOKIE[$this->_keyName])===false) {
+	if (empty($_COOKIE[$this->_keyName]) || strpos($_COOKIE[$this->_keyName],':')===false) {
             $keyLength    = mcrypt_get_key_size($this->_algo, MCRYPT_MODE_CBC);
             $this->_key   = self::_randomKey($keyLength);
             $this->_auth  = self::_randomKey(32);
