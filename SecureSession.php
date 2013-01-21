@@ -111,10 +111,10 @@ class SecureSession {
 		$this->_ivSize = mcrypt_get_iv_size( $this->_algo, MCRYPT_MODE_CBC );
 
 		if( empty( $_COOKIE[$this->_keyName] ) || strpos( $_COOKIE[$this->_keyName], ':' ) === false ) {
-			$keyLength	= mcrypt_get_key_size( $this->_algo, MCRYPT_MODE_CBC );
+			$keyLength = mcrypt_get_key_size( $this->_algo, MCRYPT_MODE_CBC );
 			$this->_key = self::_randomKey( $keyLength );
 			$this->_auth = self::_randomKey( 32 );
-			$cookieParam = session_get_cookieParams();
+			$cookieParam = session_get_cookie_params();
 			setcookie(
 				$this->_keyName,
 				base64_encode( $this->_key ) . ':' . base64_encode( $this->_auth ),
@@ -126,7 +126,7 @@ class SecureSession {
 			);
 		}
 		else {
-			list( $this->_key, $this->_auth ) = explode( ':', $_COOKIE[$this->_keyName]);
+			list( $this->_key, $this->_auth ) = explode( ':', $_COOKIE[$this->_keyName] );
 			$this->_key = base64_decode( $this->_key );
 			$this->_auth = base64_decode( $this->_auth );
 		}
