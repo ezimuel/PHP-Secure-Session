@@ -12,9 +12,8 @@ $sessionPath = '/tmp';
 session_save_path( $sessionPath );
 session_start();
 
-if( empty( $_SESSION['time'] ) ) {
+if( empty( $_SESSION['time'] ) )
     $_SESSION['time'] = time();
-}    
 
 $filename = $sessionPath . '/' . session_name() . '_' . session_id();
 
