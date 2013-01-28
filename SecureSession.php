@@ -192,7 +192,10 @@ class SecureSession {
 	 */
 	public function destroy( $id ) {
 		$sessFile = $this->_path . $this->_name . '_' . $id;
-		setcookie( $this->_keyName, '', time() - 3600 );
+		$cookieParam = session_get_cookie_params();
+		setcookie( $this->_keyName, '', time() - 3600
+			$cookieParam['path'], $cookieParam['domain'],
+			$cookieParam['secure'], $cookieParam['httponly'] );
 
 		return ( @unlink( $sessFile ) );
 	}
