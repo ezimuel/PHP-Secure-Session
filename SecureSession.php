@@ -110,7 +110,7 @@ class SecureSession {
             setcookie(
                 $this->_keyName,
                 base64_encode($this->_key) . ':' . base64_encode($this->_auth),
-                $cookie_param['lifetime'],
+                time() + $cookie_param['lifetime'],
                 $cookie_param['path'],
                 $cookie_param['domain'],
                 $cookie_param['secure'],
