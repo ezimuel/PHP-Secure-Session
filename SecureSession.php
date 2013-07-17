@@ -180,7 +180,7 @@ class SecureSession {
             $iv
         );
         $hmac  = hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
-        $bytes = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
+        $bytes = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted), LOCK_EX);
         return ($bytes !== false);  
     }
     /**
