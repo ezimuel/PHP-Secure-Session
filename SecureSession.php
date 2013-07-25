@@ -97,7 +97,7 @@ class SecureSession {
      */
     public function open($save_path, $session_name) 
     {
-        $this->_path    = $save_path.'/';	
+        $this->_path    = $save_path . DIRECTORY_SEPARATOR;	
 	$this->_name    = $session_name;
 	$this->_keyName = "KEY_$session_name";
 	$this->_ivSize  = mcrypt_get_iv_size($this->_algo, MCRYPT_MODE_CBC);
