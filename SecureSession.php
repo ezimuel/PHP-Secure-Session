@@ -97,7 +97,7 @@ class SecureSession {
      */
     public function open($save_path, $session_name) 
     {
-        $this->_path    = $save_path.'/';	
+        $this->_path    = $save_path . DIRECTORY_SEPARATOR;	
 	$this->_name    = $session_name;
 	$this->_keyName = "KEY_$session_name";
 	$this->_ivSize  = mcrypt_get_iv_size($this->_algo, MCRYPT_MODE_CBC);
@@ -180,7 +180,7 @@ class SecureSession {
             $iv
         );
         $hmac  = hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
-        $bytes = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
+        $bytes = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted), LOCK_EX);
         return ($bytes !== false);  
     }
     /**
