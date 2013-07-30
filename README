@@ -2,7 +2,7 @@ Encrypt PHP session data using files
 ----------------------------------------------
 The encryption is built using mcrypt extension 
 and the randomness is managed by openssl
-The default encryption algorithm is Rijndael-256
+The default encryption algorithm is Rijndael-128
 and we use CBC+HMAC (Encrypt-then-mac)
 
 How to use it
