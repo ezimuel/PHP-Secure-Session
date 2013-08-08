@@ -14,12 +14,8 @@ Demo
 ----
 In the demo folder you can see a simple PHP script (demo.php)
 that stores some data in $_SESSION and display the encrypted
-data of the session file (stored in /tmp).
-
-Release Note:
--------------
-06 June    2012 - Added the demo script
-16 October 2011 - Added the CBC+HMAC authentication
+data of the session file (stored in the temporary directory
+of the operating system, e.g. /tmp in GNU/Linux).
 
   
 Enrico Zimuel (enrico@zimuel.it)

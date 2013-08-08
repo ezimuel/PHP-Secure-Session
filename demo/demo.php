@@ -2,13 +2,15 @@
 /**
  * Demo script for SecureSession
  * 
+ * Requirement: PHP 5.2.1+
+ *
  * @author    Enrico Zimuel (enrico@zimuel.it)
  * @copyright GNU General Public License 
  */
 require_once '../SecureSession.php';
 
 // change the default session folder in a temporary dir
-$sessionPath = '/tmp';
+$sessionPath = sys_get_temp_dir();
 session_save_path($sessionPath);
 session_start();
 
