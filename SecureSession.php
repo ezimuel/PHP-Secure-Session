@@ -110,7 +110,7 @@ class SecureSession {
             setcookie(
                 $this->_keyName,
                 base64_encode($this->_key) . ':' . base64_encode($this->_auth),
-                time() + $cookie_param['lifetime'],
+                ($cookie_param['lifetime'] > 0) ? time() + $cookie_param['lifetime'] : 0, // if session cookie lifetime > 0 then add to current time; otherwise leave it as zero, honoring zero's special meaning: expire at browser close.
                 $cookie_param['path'],
                 $cookie_param['domain'],
                 $cookie_param['secure'],
