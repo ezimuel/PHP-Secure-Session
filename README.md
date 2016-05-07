@@ -1,5 +1,7 @@
 # PHP-Secure-Session
 
+[![Build Status](https://secure.travis-ci.org/ezimuel/PHP-Secure-Session.svg?branch=master)](https://secure.travis-ci.org/ezimuel/PHP-Secure-Session)
+
 ## About
 
 This project adds encryption to internal PHP save handlers.
