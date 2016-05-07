@@ -11,7 +11,7 @@ Due to the issue reported in [#19](https://github.com/ezimuel/PHP-Secure-Session
 the current SecureSession handler implementation can be affected by **race-condition**
 for concurrent session requests coming from the same SESSION_ID (for instance, with Ajax calls).
 
-**I DO NOT SUGGEST TO USE THIS CODE IN PRODUCTION** until the issue [#19](https://github.com/ezimuel/PHP-Secure-Session/issues/19) will be  fixed!
+**I SUGGEST TO DO NOT USE THIS CODE IN PRODUCTION** until the issue [#19](https://github.com/ezimuel/PHP-Secure-Session/issues/19) will be  fixed!
 
 ## How to use it
 
