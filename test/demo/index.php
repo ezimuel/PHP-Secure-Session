@@ -7,7 +7,7 @@
  */
 ini_set('session.save_handler', 'files');
 
-chdir(dirname(__DIR__));
+chdir(dirname(dirname(__DIR__)));
 require_once 'vendor/autoload.php';
 
 // change the default session folder in a temporary dir

@@ -33,7 +33,7 @@ project when consuming the `vendor/autoload.php` file.
 ## Usage
 
 You don't have to do nothing to consume this library, the [SecureHandler](src/SecureHandler.php)
-handler is automatically registered with [session_set_save_handler()](http://php.net/manual/en/function.session-set-save-handler.php)
+is automatically registered with [session_set_save_handler()](http://php.net/manual/en/function.session-set-save-handler.php)
 during the composer autoload.
 
 ## How it works
@@ -78,4 +78,5 @@ Now, you can use PHP-Secure-Session with other session handlers, not only file!
 ---
 
 Copyright 2016 by [Enrico Zimuel](http://www.zimuel.it)
-Released with the [MIT License](LICENSE)
+
+Released under the [MIT License](LICENSE)
