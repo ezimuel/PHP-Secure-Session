@@ -65,7 +65,7 @@ the demo in action.
 
 ## Notes about the previous implementation
 
-I rewrote PHP-Secure-Session from scratch because the previous implementation
+I rewrote PHP-Secure-Session from scratch because the [previous implementation](https://github.com/ezimuel/PHP-Secure-Session/tree/old-implementation)
 was quite old (2011) and it was affected by [#19](https://github.com/ezimuel/PHP-Secure-Session/issues/19)
 issue. Moreover, it did not use composer and it was using Mcrypt that is going
 to be deprecated in [PHP 7.1](https://wiki.php.net/rfc/mcrypt-viking-funeral).
