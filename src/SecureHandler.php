@@ -178,7 +178,7 @@ class SecureHandler extends SessionHandler
             return hash_equals($expected, $actual);
         }
         $lenExpected  = mb_strlen($expected, '8bit');
-        $lenActual    = mb_strlen($actua, '8bit');
+        $lenActual    = mb_strlen($actual, '8bit');
         $len          = min($lenExpected, $lenActual);
         $result = 0;
         for ($i = 0; $i < $len; $i++) {
