@@ -164,7 +164,7 @@ class SecureHandler extends SessionHandler
     }
 
     /**
-     * Hash equals implementation for PHP 5.5
+     * Hash equals function for PHP 5.5+
      *
      * @param string $expected
      * @param string $actual
