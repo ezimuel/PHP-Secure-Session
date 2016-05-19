@@ -7,8 +7,12 @@
  */
 ini_set('session.save_handler', 'files');
 
-chdir(dirname(dirname(__DIR__)));
-require_once 'vendor/autoload.php';
+$autoload = __DIR__ . '/../../vendor/autoload.php';
+if (! file_exists($autoload)) {
+  echo "You need to execute <strong>composer install</strong>!";
+  exit;
+}
+require_once $autoload;
 
 // change the default session folder in a temporary dir
 session_save_path(sys_get_temp_dir());
