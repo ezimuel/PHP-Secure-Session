@@ -83,3 +83,7 @@ Now, you can use PHP-Secure-Session with other session handlers, not only file!
 Copyright 2016 by [Enrico Zimuel](http://www.zimuel.it)
 
 Released under the [MIT License](LICENSE)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ezimuel/php-secure-session/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
