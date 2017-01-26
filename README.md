@@ -17,17 +17,13 @@ The session management logic remains the same, that means you can use
 `SecureSession` with all the PHP session handlers like 'file', 'sqlite',
 'memcache' or 'memcached' which are provided by PHP extensions.
 
-## Version
-
-As this software is **ALPHA, Use at your own risk!**
-
 ## Installation
 
 You can install this library using [composer](https://getcomposer.org/) with the
 following command:
 
 ```
-composer require ezimuel/php-secure-session:dev-master
+composer require ezimuel/php-secure-session
 ```
 
 After that the PHP-Secure-Session handler will be automatically executed in your
