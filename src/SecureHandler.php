@@ -121,7 +121,7 @@ class SecureHandler extends SessionHandler
             mb_substr($key, 32, null, '8bit'),
             true
         );
-        if (! $this->hash_equals($hmac, $hmacNew)) {
+        if (! hash_equals($hmac, $hmacNew)) {
             throw new \RuntimeException('Authentication failed');
         }
         // Decrypt
@@ -161,30 +161,5 @@ class SecureHandler extends SessionHandler
             $key = base64_decode($_COOKIE[$name]);
         }
         return $key;
-    }
-
-    /**
-     * Hash equals function for PHP 5.5+
-     *
-     * @param string $expected
-     * @param string $actual
-     * @return bool
-     */
-    protected function hash_equals($expected, $actual)
-    {
-        $expected     = (string) $expected;
-        $actual       = (string) $actual;
-        if (function_exists('hash_equals')) {
-            return hash_equals($expected, $actual);
-        }
-        $lenExpected  = mb_strlen($expected, '8bit');
-        $lenActual    = mb_strlen($actual, '8bit');
-        $len          = min($lenExpected, $lenActual);
-        $result = 0;
-        for ($i = 0; $i < $len; $i++) {
-            $result |= ord($expected[$i]) ^ ord($actual[$i]);
-        }
-        $result |= $lenExpected ^ $lenActual;
-        return ($result === 0);
     }
 }

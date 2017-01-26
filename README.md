@@ -66,20 +66,8 @@ If you open the browser to [localhost:8000](http://localhost:8000) you will see
 the demo in action.
 
 
-## Notes about the previous implementation
-
-I rewrote PHP-Secure-Session from scratch because the [previous implementation](https://github.com/ezimuel/PHP-Secure-Session/tree/old-implementation)
-was quite old (2011) and it was affected by [#19](https://github.com/ezimuel/PHP-Secure-Session/issues/19)
-issue. Moreover, it did not use composer and it was using Mcrypt that is going
-to be deprecated in [PHP 7.1](https://wiki.php.net/rfc/mcrypt-viking-funeral).
-
-The new implementation uses OpenSSL that performs better and also has a new
-architecture, without any access to the saving mechanism of the PHP sessions
-solving the [#19](https://github.com/ezimuel/PHP-Secure-Session/issues/19) issue.
-Now, you can use PHP-Secure-Session with other session handlers, not only file!
-
 ---
 
-Copyright 2016 by [Enrico Zimuel](http://www.zimuel.it)
+Copyright 2017 by [Enrico Zimuel](http://www.zimuel.it)
 
 Released under the [MIT License](LICENSE)

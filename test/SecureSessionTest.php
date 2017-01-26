@@ -43,38 +43,4 @@ class HashTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->secureHandler->write($id, $data));
         $this->assertEquals($data, $this->secureHandler->read($id));
     }
-
-    /**
-     * @requires PHP 5.5
-     */
-    public function testHashEquals()
-    {
-        
-        $class = new ReflectionClass(SecureHandler::class);
-        $method = $class->getMethod('hash_equals');
-        $method->setAccessible(true);
-
-        $numBytes  = 1048576;
-        $expected  = random_bytes($numBytes);
-        $actual    = $expected;
-        $actual[0] = chr(ord($actual[0]) + 1 % 256);
-
-
-        // Compare two almost identical string (the first byte is different)
-        $start = microtime(true);
-        $equal = $method->invoke($this->secureHandler, $expected, $actual);
-        $execTime1 = microtime(true) - $start;
-        $this->assertFalse($equal);
-
-        // Compare the same random string
-        $start = microtime(true);
-        $equal = $method->invoke($this->secureHandler, $expected, $expected);
-        $execTime2 = microtime(true) - $start;
-        $this->assertTrue($equal);
-
-        // The difference bewteen the executtion times should be less than 30%
-        $this->assertGreaterThan(0.7, $execTime1 / $execTime2);
-        $this->assertLessThan(1.3, $execTime1 / $execTime2);
-
-    }
 }
