@@ -11,6 +11,7 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.local
+    - vendor
 
 matrix:
   fast_finish: true
@@ -20,13 +21,14 @@ matrix:
       env:
         - EXECUTE_TEST_COVERALLS=true
     - php: 7
+    - php: 7.1
     - php: hhvm
   allow_failures:
     - php: hhvm
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - composer self-update
+  - travis_retry composer self-update
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
 
 install:
@@ -37,4 +39,4 @@ script:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls -v; fi

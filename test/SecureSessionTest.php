@@ -49,6 +49,7 @@ class HashTest extends \PHPUnit_Framework_TestCase
      */
     public function testHashEquals()
     {
+        
         $class = new ReflectionClass(SecureHandler::class);
         $method = $class->getMethod('hash_equals');
         $method->setAccessible(true);
@@ -61,7 +62,7 @@ class HashTest extends \PHPUnit_Framework_TestCase
 
         // Compare two almost identical string (the first byte is different)
         $start = microtime(true);
-        $equal = $method->invoke($this->secureHandler,$expected, $actual);
+        $equal = $method->invoke($this->secureHandler, $expected, $actual);
         $execTime1 = microtime(true) - $start;
         $this->assertFalse($equal);
 
