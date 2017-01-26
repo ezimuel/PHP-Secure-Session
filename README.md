@@ -1,7 +1,7 @@
 # PHP-Secure-Session
 
 [![Build Status](https://secure.travis-ci.org/ezimuel/PHP-Secure-Session.svg?branch=master)](https://secure.travis-ci.org/ezimuel/PHP-Secure-Session)
-[![Coverage Status](https://coveralls.io/repos/github/ezimuel/PHP-Secure-Session/badge.svg?branch=master)](https://coveralls.io/github/ezimuel/PHP-Secure-Session?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ezimuel/PHP-Secure-Session/badge.svg)](https://coveralls.io/github/ezimuel/PHP-Secure-Session)
 
 ## About
 
