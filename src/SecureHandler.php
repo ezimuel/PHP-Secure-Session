@@ -157,6 +157,7 @@ class SecureHandler extends SessionHandler
                 $cookieParam['secure'],
                 $cookieParam['httponly']
             );
+            $_COOKIE[$name] = base64_encode($key);
         } else {
             $key = base64_decode($_COOKIE[$name]);
         }
