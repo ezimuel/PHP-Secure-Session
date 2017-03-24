@@ -2,3 +2,4 @@ composer.lock
 vendor
 clover.xml
 coveralls-upload.json
+nbproject
