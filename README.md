@@ -67,3 +67,7 @@ the demo in action.
 Copyright 2017 by [Enrico Zimuel](http://www.zimuel.it)
 
 Released under the [MIT License](LICENSE)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ezimuel/php-secure-session/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
