@@ -143,11 +143,12 @@ class SecureHandler extends SessionHandler
     protected function getKey($name)
     {
         if (empty($_COOKIE[$name])) {
-            $key = random_bytes(64); // 32 for encryption and 32 for authentication
+            $key         = random_bytes(64); // 32 for encryption and 32 for authentication
             $cookieParam = session_get_cookie_params();
+            $encKey      = base64_encode($key);
             setcookie(
                 $name,
-                base64_encode($key),
+                $encKey,
                 // if session cookie lifetime > 0 then add to current time
                 // otherwise leave it as zero, honoring zero's special meaning
                 // expire at browser close.
@@ -157,6 +158,7 @@ class SecureHandler extends SessionHandler
                 $cookieParam['secure'],
                 $cookieParam['httponly']
             );
+            $_COOKIE[$name] = $encKey;
         } else {
             $key = base64_decode($_COOKIE[$name]);
         }

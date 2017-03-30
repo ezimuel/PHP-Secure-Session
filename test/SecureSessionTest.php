@@ -43,4 +43,28 @@ class HashTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->secureHandler->write($id, $data));
         $this->assertEquals($data, $this->secureHandler->read($id));
     }
+
+    /**
+     * Test for issue #27
+     * @see https://github.com/ezimuel/PHP-Secure-Session/issues/27
+     *
+     * @runInSeparateProcess
+     */
+    public function testDoubleOpen()
+    {
+        $this->assertTrue($this->secureHandler->open(sys_get_temp_dir(), ''));
+        $id1 = session_id();
+
+        $handler = new ReflectionObject($this->secureHandler);
+        $key = $handler->getProperty('key');
+        $key->setAccessible(true);
+        $key1 = $key->getValue($this->secureHandler);
+
+        $this->assertTrue($this->secureHandler->open(sys_get_temp_dir(), ''));
+        $id2 = session_id();
+        $key2 = $key->getValue($this->secureHandler);
+
+        $this->assertEquals($id1, $id2);
+        $this->assertEquals($key1, $key2);
+    }
 }
