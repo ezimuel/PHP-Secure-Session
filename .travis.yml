@@ -21,6 +21,7 @@ matrix:
         - EXECUTE_TEST_COVERALLS=true
     - php: 7
     - php: 7.1
+    - php: 7.2
     - php: hhvm
   allow_failures:
     - php: hhvm
@@ -34,8 +35,8 @@ install:
   - travis_retry composer install --no-interaction
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer test-coverage ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then composer test ; fi
 
 after_script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls -v; fi

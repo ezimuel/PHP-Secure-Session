@@ -122,7 +122,7 @@ class SecureHandler extends SessionHandler
             true
         );
         if (! hash_equals($hmac, $hmacNew)) {
-            throw new \RuntimeException('Authentication failed');
+            throw new Exception\AuthenticationFailedException('Authentication failed');
         }
         // Decrypt
         return openssl_decrypt(

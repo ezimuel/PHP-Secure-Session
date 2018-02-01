@@ -2,16 +2,25 @@
 
 namespace PHPSecureSessionTest;
 
+use PHPSecureSession\Exception\AuthenticationFailedException;
 use PHPSecureSession\SecureHandler;
-use SessionHandler;
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use ReflectionClass;
+use SessionHandler;
 
-class HashTest extends \PHPUnit_Framework_TestCase
+class SecureHandlerTest extends TestCase
 {
     public function setUp()
     {
         $this->secureHandler = new SecureHandler();
+        session_set_save_handler($this->secureHandler, true);
+        session_start();
+    }
+
+    public function tearDown()
+    {
+        session_write_close();
     }
 
     public function testConstructor()
@@ -19,9 +28,6 @@ class HashTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SessionHandler::class, $this->secureHandler);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testOpen()
     {
         $this->assertTrue($this->secureHandler->open(sys_get_temp_dir(), ''));
@@ -32,9 +38,6 @@ class HashTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(64, mb_strlen($key->getValue($this->secureHandler), '8bit'));
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testWriteRead()
     {
         $this->assertTrue($this->secureHandler->open(sys_get_temp_dir(), ''));
@@ -47,8 +50,6 @@ class HashTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for issue #27
      * @see https://github.com/ezimuel/PHP-Secure-Session/issues/27
-     *
-     * @runInSeparateProcess
      */
     public function testDoubleOpen()
     {
@@ -66,5 +67,21 @@ class HashTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($id1, $id2);
         $this->assertEquals($key1, $key2);
+    }
+
+    public function testAuthenticationFailureDecrypt()
+    {
+        $this->assertTrue($this->secureHandler->open(sys_get_temp_dir(), ''));
+        $id = session_id();
+        $data = "This is a test!";
+        $this->assertTrue($this->secureHandler->write($id, $data));
+
+        // Change the session data to generate an authentication error
+        $alteredData = str_replace('!', '.', $data);
+        file_put_contents(sys_get_temp_dir() . "/sess_$id", $alteredData);
+
+        $this->expectException(AuthenticationFailedException::class);
+        $this->assertEquals($data, $this->secureHandler->read($id));
+
     }
 }
