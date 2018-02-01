@@ -20,6 +20,7 @@ class SecureHandlerTest extends TestCase
 
     public function tearDown()
     {
+        session_destroy();
         session_write_close();
     }
 
