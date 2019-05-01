@@ -9,7 +9,7 @@ $start = microtime(true);
 
 ini_set('session.save_handler', 'files');
 
-$autoload = __DIR__ . '/../../vendor/autoload.php';
+$autoload = '../../../../autoload.php';
 if (! file_exists($autoload)) {
   echo "You need to execute <strong>composer install</strong>!";
   exit;
