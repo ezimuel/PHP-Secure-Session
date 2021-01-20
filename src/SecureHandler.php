@@ -146,18 +146,29 @@ class SecureHandler extends SessionHandler
             $key         = random_bytes(64); // 32 for encryption and 32 for authentication
             $cookieParam = session_get_cookie_params();
             $encKey      = base64_encode($key);
-            setcookie(
-                $name,
-                $encKey,
-                // if session cookie lifetime > 0 then add to current time
-                // otherwise leave it as zero, honoring zero's special meaning
-                // expire at browser close.
-                ($cookieParam['lifetime'] > 0) ? time() + $cookieParam['lifetime'] : 0,
-                $cookieParam['path'],
-                $cookieParam['domain'],
-                $cookieParam['secure'],
-                $cookieParam['httponly']
-            );
+            // if session cookie lifetime > 0 then add to current time
+            // otherwise leave it as zero, honoring zero's special meaning
+            // expire at browser close.
+            $expires     = ($cookieParam['lifetime'] > 0) ? time() + $cookieParam['lifetime'] : 0;
+
+            if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+                // PHP 7.3.0+ can use options as array,
+                // however session_get_cookie_params() returns 'lifetime',
+                // but setting the options via array requires you to use 'expires'
+                $cookieParam['expires'] = $expires;
+                unset($cookieParam['lifetime']);
+                setcookie($name, $encKey, $cookieParam);
+            } else {
+                setcookie(
+                    $name,
+                    $encKey,
+                    $expires,    
+                    $cookieParam['path'],
+                    $cookieParam['domain'],
+                    $cookieParam['secure'],
+                    $cookieParam['httponly']
+                );
+            }
             $_COOKIE[$name] = $encKey;
         } else {
             $key = base64_decode($_COOKIE[$name]);
